@@ -12,7 +12,7 @@ from django.test import SimpleTestCase
 @patch('core.management.commands.wait_for_db.Command.check')
 class CommandTests(SimpleTestCase):
     """Test commands."""
-    
+
     def test_wait_for_db_ready(self, patched_check):
         """Test waiting for db if db is ready"""
         patched_check.return_value = True
@@ -31,4 +31,3 @@ class CommandTests(SimpleTestCase):
 
         self.assertEqual(patched_check.call_count, 6)
         patched_check.assert_called_with(databases=['default'])
-
