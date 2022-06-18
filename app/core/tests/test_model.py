@@ -2,7 +2,6 @@
 Tet for models
 """
 from decimal import Decimal
-from time import time_ns
 from django.test import TestCase
 from django.contrib.auth import get_user_model
 from core import models
