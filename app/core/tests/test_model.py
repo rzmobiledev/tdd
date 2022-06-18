@@ -15,8 +15,10 @@ class ModelTests(TestCase):
         """Test creating a user with an email is successful"""
         email = 'test@example.com'
         password = 'testpas123'
-        user = get_user_model().objects.create_user(email=email, \
-            password=password)
+        user = get_user_model().objects.create_user(
+            email=email,
+            password=password
+        )
         self.assertEqual(user.email, email)
         self.assertTrue(user.check_password(password))
 
@@ -29,8 +31,10 @@ class ModelTests(TestCase):
             ['test4@example.COM', 'test4@example.com'],
         ]
         for email, expected in sample_emails:
-            user = get_user_model().objects.create_user(email, \
-                'sample123')
+            user = get_user_model().objects.create_user(
+                email,
+                'sample123'
+            )
             self.assertEqual(user.email, expected)
 
     def test_new_user_without_email_raises_error(self):
@@ -44,7 +48,7 @@ class ModelTests(TestCase):
         user.objects.create_superuser('test1@example.com', 'test123')
         self.assertTrue(user.is_superuser)
         self.assertTrue(user.is_staff)
-    
+
     def test_create_recipe(self):
         """Tes creating a recipe is successful"""
         user = get_user_model().objects.create_user(
