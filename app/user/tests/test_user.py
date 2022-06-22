@@ -1,7 +1,6 @@
 """
 Test for user API.
 """
-from os import stat
 from django.test import TestCase
 from django.contrib.auth import get_user_model
 from django.urls import reverse
@@ -42,7 +41,7 @@ class PublicUserAPITest(TestCase):
 
     def test_user_with_email_exists(self):
         """The error returned if user email exiss"""
-        payload={
+        payload = {
             'email': 'test@example.com',
             'password': '123testpass',
             'name': 'Test name'
@@ -78,7 +77,7 @@ class PublicUserAPITest(TestCase):
         }
         create_user(**user_details)
 
-        payload={
+        payload = {
             'email': user_details['email'],
             'password': user_details['password'],
         }
@@ -104,7 +103,7 @@ class PublicUserAPITest(TestCase):
 
     def test_create_token_blank_password(self):
         """Test posting a blank password return an error."""
-        payload={
+        payload = {
             'email': 'test@example.com',
             'password': ''
         }
@@ -147,10 +146,10 @@ class PrivateUserAPItest(TestCase):
         """Test POST is not allowed for the me endpoint."""
         res = self.client.post(ME_URL, {})
         self.assertEqual(res.status_code, status.HTTP_405_METHOD_NOT_ALLOWED)
-    
+
     def test_update_user_profile(self):
         """Test updating user profile for authenticated users."""
-        payload={
+        payload = {
             'name': 'updated name',
             'password': 'newpassword123'
         }

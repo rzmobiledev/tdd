@@ -2,7 +2,6 @@
 Test Recipe API
 """
 from decimal import Decimal
-from venv import create
 from django.contrib.auth import get_user_model
 from django.test import TestCase
 from django.urls import reverse
@@ -24,10 +23,11 @@ def detail_url(recipe_id):
     """Create and return a recipe detail url."""
     return reverse('recipe:recipe-detail', args=[recipe_id])
 
+
 def create_recipe(user, **params):
     """Create and return a sample recipe."""
 
-    defaults={
+    defaults = {
         'title': 'Sample recipe title',
         'time_minutes': 22,
         'price': Decimal('5.25'),
@@ -87,7 +87,7 @@ class PrivateRecipeAPITest(TestCase):
         """Test list of recipe is limited to authenticate users."""
         other_user = create_user(
             email='other@example.com',
-             password='password123',
+            password='password123',
         )
         create_recipe(user=other_user)
         create_recipe(user=self.user)
@@ -104,7 +104,7 @@ class PrivateRecipeAPITest(TestCase):
     def test_get_recipe_detail(self):
         """Test get recipe detail."""
         recipe = create_recipe(user=self.user)
-        
+
         url = detail_url(recipe.id)
         res = self.client.get(url)
 
@@ -123,7 +123,7 @@ class PrivateRecipeAPITest(TestCase):
 
         self.assertEqual(res.status_code, status.HTTP_201_CREATED)
         recipe = Recipe.objects.get(id=res.data['id'])
-        for k,v in payload.items():
+        for k, v in payload.items():
             self.assertEqual(getattr(recipe, k), v)
         self.assertEqual(recipe.user, self.user)
 
@@ -164,7 +164,7 @@ class PrivateRecipeAPITest(TestCase):
         }
         url = detail_url(recipe.id)
         res = self.client.put(url, payload)
-        
+
         self.assertEqual(res.status_code, status.HTTP_200_OK)
         recipe.refresh_from_db()
         for k,v in payload.items():
@@ -178,14 +178,14 @@ class PrivateRecipeAPITest(TestCase):
             password='testpass123',
         )
         recipe = create_recipe(user=self.user)
-        
+
         payload = {'user': new_user.id}
         url = detail_url(recipe.id)
         self.client.patch(url, payload)
 
         recipe.refresh_from_db()
         self.assertEqual(recipe.user, self.user)
-    
+
     def test_delete_recipe(self):
         """Test deleting recipe successful."""
         recipe = create_recipe(user=self.user)
@@ -194,7 +194,7 @@ class PrivateRecipeAPITest(TestCase):
 
         self.assertEqual(res.status_code, status.HTTP_204_NO_CONTENT)
         self.assertFalse(Recipe.objects.filter(id=recipe.id).exists())
-    
+
     def test_delete_other_user_recipe_error(self):
         """Test trying to delete another user recipe gives an error."""
         new_user = create_user(

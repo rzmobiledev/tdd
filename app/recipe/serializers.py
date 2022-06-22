@@ -7,12 +7,12 @@ from core.models import Recipe
 
 class RecipeSerializer(serializers.ModelSerializer):
     """Serializers for recipe."""
-    
+
     class Meta:
         model = Recipe
         fields = [
-            'id', 
-            'title', 
+            'id',
+            'title',
             'time_minutes',
             'price',
             'link'
